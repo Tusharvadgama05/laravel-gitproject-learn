@@ -1,7 +1,7 @@
 services:
   - type: web
     name: laravel-gitproject-learn
-    env: php
+    runtime: php
     buildCommand: |
       composer install --no-dev --optimize-autoloader
       php artisan config:cache
@@ -15,4 +15,4 @@ services:
       - key: APP_KEY
         generateValue: true
       - key: APP_URL
-        value: https://laravel-gitproject-learn.com
+        value: https://laravel-gitproject-learn.onrender.com
