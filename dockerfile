@@ -18,14 +18,17 @@ WORKDIR /var/www/html
 # Copy app code
 COPY . .
 
-# Install dependencies (without dev packages)
+# Install dependencies
 RUN composer install --no-dev --optimize-autoloader
 
 # Laravel storage + cache permissions
 RUN chown -R www-data:www-data storage bootstrap/cache
 
+# Set Apache to serve Laravel from /public
+RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf \
+    && sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/apache2.conf
+
 # Expose Render port
 EXPOSE 8080
 
-# Apache will run automatically
 CMD ["apache2-foreground"]
